@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#0b1220">
+    <meta name="description"
+          content="ResQMesh - Resilient emergency communication platform">
+
+    <title>ResQMesh | Emergency Command Center</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+        <div class="brand-icon">R</div>
+
+        <div>
+            <h2>ResQMesh</h2>
+            <span>Emergency Network</span>
+        </div>
+    </div>
+
+    <nav>
+
+        <button class="nav-item active" onclick="showPage('dashboard', this)">
+            <span>⌂</span>
+            Dashboard
+        </button>
+
+        <button class="nav-item" onclick="showPage('emergency', this)">
+            <span>🚨</span>
+            Emergency
+        </button>
+
+        <button class="nav-item" onclick="showPage('network', this)">
+            <span>◉</span>
+            Mesh Network
+        </button>
+
+        <button class="nav-item" onclick="showPage('alerts', this)">
+            <span>⚠</span>
+            Alerts
+            <b id="alertBadge">0</b>
+        </button>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+        <div class="system-status">
+            <span class="online-dot"></span>
+
+            <div>
+                <strong>System Online</strong>
+                <small>Local mesh ready</small>
+            </div>
+        </div>
+
+        <button class="settings-btn" onclick="showInfo()">
+            ⚙ System Info
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <div>
+            <div class="mobile-brand">
+                <div class="brand-icon">R</div>
+                <strong>ResQMesh</strong>
+            </div>
+
+            <h1 id="pageTitle">Emergency Command Center</h1>
+
+            <p id="pageSubtitle">
+                Monitor emergency communication and local network activity.
+            </p>
+        </div>
+
+        <div class="top-actions">
+
+            <div class="connection">
+                <span class="pulse"></span>
+                <span id="connectionText">LOCAL NETWORK ACTIVE</span>
+            </div>
+
+            <button class="icon-btn" onclick="toggleConnection()">
+                📡
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <section id="dashboard" class="page active-page">
+
+        <div class="hero-card">
+
+            <div class="hero-content">
+
+                <span class="eyebrow">RESILIENT EMERGENCY COMMUNICATION</span>
+
+                <h2>
+                    When the network fails,
+                    <span>ResQMesh keeps people connected.</span>
+                </h2>
+
+                <p>
+                    Emergency messages can be relayed through nearby
+                    communication nodes when conventional connectivity
+                    becomes unavailable.
+                </p>
+
+                <button class="primary-btn" onclick="showPageById('emergency')">
+                    🚨 Create Emergency Alert
+                </button>
+
+            </div>
+
+            <div class="hero-network">
+
+                <div class="radar"></div>
+
+                <div class="center-node">
+                    📡
+                </div>
+
+                <div class="node node-1">📱</div>
+                <div class="node node-2">📱</div>
+                <div class="node node-3">📱</div>
+                <div class="node node-4">🚑</div>
+
+                <div class="connection-line line-1"></div>
+                <div class="connection-line line-2"></div>
+                <div class="connection-line line-3"></div>
+                <div class="connection-line line-4"></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon red">🚨</div>
+                <div>
+                    <span>Active Emergencies</span>
+                    <strong id="activeCount">0</strong>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon blue">📡</div>
+                <div>
+                    <span>Connected Nodes</span>
+                    <strong id="nodeCount">18</strong>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon orange">⚠️</div>
+                <div>
+                    <span>High Priority</span>
+                    <strong id="priorityCount">0</strong>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon green">✓</div>
+                <div>
+                    <span>Safe Reports</span>
+                    <strong id="safeCount">0</strong>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- LIVE ACTIVITY -->
+
+        <div class="content-grid">
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <span class="eyebrow">LIVE ACTIVITY</span>
+                        <h3>Emergency Feed</h3>
+                    </div>
+
+                    <button class="text-btn"
+                            onclick="showPageById('alerts')">
+                        View all →
+                    </button>
+                </div>
+
+                <div id="dashboardAlerts" class="alert-feed">
+
+                    <div class="empty-state">
+                        <div>📭</div>
+                        <strong>No emergency alerts</strong>
+                        <p>The system is monitoring for new reports.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- NETWORK HEALTH -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <span class="eyebrow">NETWORK</span>
+                        <h3>Mesh Health</h3>
+                    </div>
+
+                    <span class="health-good">HEALTHY</span>
+
+                </div>
+
+                <div class="health">
+
+                    <div class="health-circle">
+                        <strong id="healthValue">96%</strong>
+                        <span>Network</span>
+                    </div>
+
+                    <div class="health-details">
+
+                        <div>
+                            <span>Connected nodes</span>
+                            <strong>18</strong>
+                        </div>
+
+                        <div>
+                            <span>Messages relayed</span>
+                            <strong id="relayCount">42</strong>
+                        </div>
+
+                        <div>
+                            <span>Average latency</span>
+                            <strong>180 ms</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= EMERGENCY ================= -->
+
+    <section id="emergency" class="page">
+
+        <div class="emergency-layout">
+
+            <div class="emergency-form panel">
+
+                <span class="eyebrow">EMERGENCY REPORT</span>
+
+                <h2>Send an Emergency Alert</h2>
+
+                <p class="section-description">
+                    Provide basic information so nearby responders
+                    can understand the situation quickly.
+                </p>
+
+
+                <label>Emergency Type</label>
+
+                <div class="emergency-types">
+
+                    <button class="type-btn selected"
+                            data-type="Trapped"
+                            onclick="selectType(this)">
+                        🆘
+                        <span>Trapped</span>
+                    </button>
+
+                    <button class="type-btn"
+                            data-type="Medical"
+                            onclick="selectType(this)">
+                        🏥
+                        <span>Medical</span>
+                    </button>
+
+                    <button class="type-btn"
+                            data-type="Flood"
+                            onclick="selectType(this)">
+                        🌊
+                        <span>Flood</span>
+                    </button>
+
+                    <button class="type-btn"
+                            data-type="Fire"
+                            onclick="selectType(this)">
+                        🔥
+                        <span>Fire</span>
+                    </button>
+
+                    <button class="type-btn"
+                            data-type="Building Damage"
+                            onclick="selectType(this)">
+                        🏚️
+                        <span>Building</span>
+                    </button>
+
+                    <button class="type-btn"
+                            data-type="Other"
+                            onclick="selectType(this)">
+                        ⚠️
+                        <span>Other</span>
+                    </button>
+
+                </div>
+
+
+                <label for="people">
+                    Number of people needing help
+                </label>
+
+                <input
+                    id="people"
+                    type="number"
+                    min="1"
+                    max="999"
+                    value="1"
+                >
+
+
+                <label for="message">
+                    Additional information
+                </label>
+
+                <textarea
+                    id="message"
+                    rows="4"
+                    placeholder="Example: We are inside Building B and need assistance."
+                ></textarea>
+
+
+                <div class="location-row">
+
+                    <div>
+                        <strong>📍 Location</strong>
+
+                        <p id="locationStatus">
+                            Location not captured
+                        </p>
+                    </div>
+
+                    <button class="secondary-btn"
+                            onclick="getLocation()">
+                        Capture Location
+                    </button>
+
+                </div>
+
+
+                <button class="send-emergency"
+                        onclick="createEmergency()">
+                    🚨 SEND EMERGENCY ALERT
+                </button>
+
+                <p class="warning-text">
+                    Use emergency alerts only when assistance is genuinely needed.
+                </p>
+
+            </div>
+
+
+            <!-- PRIORITY PANEL -->
+
+            <div class="panel priority-panel">
+
+                <span class="eyebrow">SMART PRIORITY ENGINE</span>
+
+                <h3>Emergency Priority</h3>
+
+                <p>
+                    ResQMesh estimates urgency using emergency type,
+                    number of people and available information.
+                </p>
+
+                <div class="priority-display">
+
+                    <div id="priorityCircle"
+                         class="priority-circle">
+                        <strong id="priorityScore">--</strong>
+                        <span>Score</span>
+                    </div>
+
+                    <div>
+
+                        <div class="priority-level"
+                             id="priorityLevel">
+                            Waiting
+                        </div>
+
+                        <p id="priorityExplanation">
+                            Fill the emergency details to calculate priority.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="priority-scale">
+
+                    <div>
+                        <span class="scale-dot critical"></span>
+                        Critical
+                    </div>
+
+                    <div>
+                        <span class="scale-dot high"></span>
+                        High
+                    </div>
+
+                    <div>
+                        <span class="scale-dot medium"></span>
+                        Medium
+                    </div>
+
+                    <div>
+                        <span class="scale-dot low"></span>
+                        Low
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= NETWORK ================= -->
+
+    <section id="network" class="page">
+
+        <div class="network-header">
+
+            <div>
+                <span class="eyebrow">LOCAL COMMUNICATION</span>
+                <h2>Mesh Network</h2>
+
+                <p>
+                    Visual representation of nearby communication nodes.
+                </p>
+            </div>
+
+            <div class="network-status-large">
+                <span class="pulse"></span>
+                Mesh Active
+            </div>
+
+        </div>
+
+
+        <div class="mesh-map">
+
+            <div class="mesh-center">
+                <div class="big-node">📡</div>
+                <strong>ResQMesh</strong>
+                <small>Command Node</small>
+            </div>
+
+            <div class="mesh-device device-a">
+                <div>📱</div>
+                <strong>Node A</strong>
+                <small>Online</small>
+            </div>
+
+            <div class="mesh-device device-b">
+                <div>📱</div>
+                <strong>Node B</strong>
+                <small>Online</small>
+            </div>
+
+            <div class="mesh-device device-c">
+                <div>📱</div>
+                <strong>Node C</strong>
+                <small>Online</small>
+            </div>
+
+            <div class="mesh-device device-d">
+                <div>🚑</div>
+                <strong>Rescue</strong>
+                <small>Responder</small>
+            </div>
+
+            <div class="mesh-line mesh-line-a"></div>
+            <div class="mesh-line mesh-line-b"></div>
+            <div class="mesh-line mesh-line-c"></div>
+            <div class="mesh-line mesh-line-d"></div>
+
+            <div id="packet" class="packet">●</div>
+
+        </div>
+
+
+        <div class="network-info-grid">
+
+            <div class="network-info panel">
+                <span>CONNECTED DEVICES</span>
+                <strong>18</strong>
+                <small>Nearby nodes</small>
+            </div>
+
+            <div class="network-info panel">
+                <span>ACTIVE ROUTES</span>
+                <strong>12</strong>
+                <small>Available paths</small>
+            </div>
+
+            <div class="network-info panel">
+                <span>MESSAGES RELAYED</span>
+                <strong id="networkRelay">42</strong>
+                <small>Today</small>
+            </div>
+
+            <div class="network-info panel">
+                <span>NETWORK HEALTH</span>
+                <strong>96%</strong>
+                <small>Excellent</small>
+            </div>
+
+        </div>
+
+
+        <button class="primary-btn simulate-btn"
+                onclick="simulatePacket()">
+            ▶ Simulate Message Relay
+        </button>
+
+    </section>
+
+
+    <!-- ================= ALERTS ================= -->
+
+    <section id="alerts" class="page">
+
+        <div class="alerts-header">
+
+            <div>
+                <span class="eyebrow">INCIDENT MANAGEMENT</span>
+                <h2>Emergency Alerts</h2>
+
+                <p>
+                    Review and manage emergency reports received by the system.
+                </p>
+            </div>
+
+            <button class="danger-outline"
+                    onclick="clearAllAlerts()">
+                Clear Alerts
+            </button>
+
+        </div>
+
+
+        <div class="filter-bar">
+
+            <button class="filter active"
+                    onclick="filterAlerts('all', this)">
+                All
+            </button>
+
+            <button class="filter"
+                    onclick="filterAlerts('Critical', this)">
+                Critical
+            </button>
+
+            <button class="filter"
+                    onclick="filterAlerts('High', this)">
+                High
+            </button>
+
+            <button class="filter"
+                    onclick="filterAlerts('Medium', this)">
+                Medium
+            </button>
+
+            <button class="filter"
+                    onclick="filterAlerts('Low', this)">
+                Low
+            </button>
+
+        </div>
+
+
+        <div id="fullAlertList" class="full-alert-list">
+
+            <div class="empty-state large">
+                <div>📭</div>
+                <strong>No alerts yet</strong>
+                <p>
+                    Emergency reports will appear here.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================= MODAL ================= -->
+
+<div id="modal" class="modal">
+
+    <div class="modal-box">
+
+        <button class="modal-close"
+                onclick="closeModal()">
+            ×
+        </button>
+
+        <div id="modalContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= TOAST ================= -->
+
+<div id="toast" class="toast">
+    <span>✓</span>
+    <div>
+        <strong id="toastTitle">Success</strong>
+        <small id="toastMessage">Done</small>
+    </div>
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+  </html>
